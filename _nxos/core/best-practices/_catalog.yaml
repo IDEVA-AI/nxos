@@ -1,0 +1,19 @@
+# Best Practices Catalog
+# The Architect reads this file to discover which best-practices are available.
+# Read the full file only for best-practices relevant to the squad being created.
+
+catalog:
+  - id: researching
+    name: "Research & Data Collection"
+    whenToUse: "Creating agents that research topics, collect data from the web, verify facts, or produce structured research briefs."
+    file: researching.md
+
+  - id: review
+    name: "Review & Quality Control"
+    whenToUse: "Creating agents that evaluate output quality, score against criteria, or produce structured APPROVE/REJECT verdicts."
+    file: review.md
+
+  - id: data-analysis
+    name: "Data Analysis & Interpretation"
+    whenToUse: "Creating agents that interpret metrics, extract insights, benchmark performance, or produce analytical reports."
+    file: data-analysis.md

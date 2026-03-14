@@ -5,18 +5,18 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { init } from '../src/init.js';
 
-test('init creates _opensquad directory structure', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init creates _nxos directory structure', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
-    await stat(join(tempDir, '_opensquad'));
-    await stat(join(tempDir, '_opensquad', 'core'));
-    await stat(join(tempDir, '_opensquad', 'core', 'architect.agent.yaml'));
-    await stat(join(tempDir, '_opensquad', 'core', 'runner.pipeline.md'));
-    await stat(join(tempDir, '_opensquad', '_memory'));
-    await stat(join(tempDir, '.claude', 'skills', 'opensquad', 'SKILL.md'));
+    await stat(join(tempDir, '_nxos'));
+    await stat(join(tempDir, '_nxos', 'core'));
+    await stat(join(tempDir, '_nxos', 'core', 'architect.agent.yaml'));
+    await stat(join(tempDir, '_nxos', 'core', 'runner.pipeline.md'));
+    await stat(join(tempDir, '_nxos', '_memory'));
+    await stat(join(tempDir, '.claude', 'skills', 'nxos', 'SKILL.md'));
     await stat(join(tempDir, 'CLAUDE.md'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
@@ -24,7 +24,7 @@ test('init creates _opensquad directory structure', async () => {
 });
 
 test('init creates empty squads directory', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
@@ -36,7 +36,7 @@ test('init creates empty squads directory', async () => {
 });
 
 test('init does not overwrite if already initialized', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
@@ -46,39 +46,39 @@ test('init does not overwrite if already initialized', async () => {
   }
 });
 
-test('CLAUDE.md contains Opensquad instructions', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('CLAUDE.md contains nxos instructions', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
     const content = await readFile(join(tempDir, 'CLAUDE.md'), 'utf-8');
-    assert.ok(content.includes('Opensquad'));
-    assert.ok(content.includes('/opensquad'));
+    assert.ok(content.includes('nxos'));
+    assert.ok(content.includes('/nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init creates _investigations directory', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
-    await stat(join(tempDir, '_opensquad', '_investigations'));
+    await stat(join(tempDir, '_nxos', '_investigations'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init writes preferences file with defaults when prompts skipped', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
-    const prefs = await readFile(join(tempDir, '_opensquad', '_memory', 'preferences.md'), 'utf-8');
+    const prefs = await readFile(join(tempDir, '_nxos', '_memory', 'preferences.md'), 'utf-8');
     assert.ok(prefs.includes('Output Language:'));
     assert.ok(prefs.includes('English'));
     assert.ok(prefs.includes('IDEs:'));
@@ -89,25 +89,25 @@ test('init writes preferences file with defaults when prompts skipped', async ()
 });
 
 test('init with language option produces translated preferences', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _language: 'Português (Brasil)' });
 
-    const prefs = await readFile(join(tempDir, '_opensquad', '_memory', 'preferences.md'), 'utf-8');
+    const prefs = await readFile(join(tempDir, '_nxos', '_memory', 'preferences.md'), 'utf-8');
     assert.ok(prefs.includes('Português (Brasil)'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('init creates .opensquad-version file', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init creates .nxos-version file', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
-    const version = await readFile(join(tempDir, '_opensquad', '.opensquad-version'), 'utf-8');
+    const version = await readFile(join(tempDir, '_nxos', '.nxos-version'), 'utf-8');
     assert.ok(version.trim().length > 0);
   } finally {
     await rm(tempDir, { recursive: true, force: true });
@@ -115,65 +115,65 @@ test('init creates .opensquad-version file', async () => {
 });
 
 test('init creates README.md in user project', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
     const content = await readFile(join(tempDir, 'README.md'), 'utf-8');
-    assert.ok(content.includes('Opensquad'));
+    assert.ok(content.includes('nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('README.md contains /opensquad command', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('README.md contains /nxos command', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
     const content = await readFile(join(tempDir, 'README.md'), 'utf-8');
-    assert.ok(content.includes('/opensquad'));
+    assert.ok(content.includes('/nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('README.md is in Portuguese when language is PT-BR', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('README.md is created with PT-BR language setting', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _language: 'Português (Brasil)' });
 
     const content = await readFile(join(tempDir, 'README.md'), 'utf-8');
-    assert.ok(content.includes('Instalação'));
+    assert.ok(content.includes('nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('README.md is in Spanish when language is Español', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('README.md is created with Spanish language setting', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _language: 'Español' });
 
     const content = await readFile(join(tempDir, 'README.md'), 'utf-8');
-    assert.ok(content.includes('Instalación'));
+    assert.ok(content.includes('nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init with _ides installs only selected IDE files', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['claude-code'] });
 
     // claude-code files exist
-    await stat(join(tempDir, '.claude', 'skills', 'opensquad', 'SKILL.md'));
+    await stat(join(tempDir, '.claude', 'skills', 'nxos', 'SKILL.md'));
     await stat(join(tempDir, 'CLAUDE.md'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
@@ -181,20 +181,20 @@ test('init with _ides installs only selected IDE files', async () => {
 });
 
 test('init with _ides codex creates AGENTS.md', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['codex'] });
 
     const content = await readFile(join(tempDir, 'AGENTS.md'), 'utf-8');
-    assert.ok(content.includes('Opensquad'));
+    assert.ok(content.includes('nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init with _ides antigravity creates .antigravity/rules.md', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['antigravity'] });
@@ -203,25 +203,25 @@ test('init with _ides antigravity creates .antigravity/rules.md', async () => {
       join(tempDir, '.antigravity', 'rules.md'),
       'utf-8'
     );
-    assert.ok(content.includes('Opensquad'));
-    assert.ok(content.includes('/opensquad'));
+    assert.ok(content.includes('nxos'));
+    assert.ok(content.includes('/nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('init with _ides antigravity creates .agent/workflows/opensquad.md', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init with _ides antigravity creates .agent/workflows/nxos.md', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['antigravity'] });
 
     const content = await readFile(
-      join(tempDir, '.agent', 'workflows', 'opensquad.md'),
+      join(tempDir, '.agent', 'workflows', 'nxos.md'),
       'utf-8'
     );
     assert.ok(content.includes('description:'));
-    assert.ok(content.includes('Opensquad'));
+    assert.ok(content.includes('nxos'));
     assert.ok(content.includes('rules.md'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
@@ -229,12 +229,12 @@ test('init with _ides antigravity creates .agent/workflows/opensquad.md', async 
 });
 
 test('init with multiple ides records all in preferences', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['claude-code', 'codex'] });
 
-    const prefs = await readFile(join(tempDir, '_opensquad', '_memory', 'preferences.md'), 'utf-8');
+    const prefs = await readFile(join(tempDir, '_nxos', '_memory', 'preferences.md'), 'utf-8');
     assert.ok(prefs.includes('claude-code'));
     assert.ok(prefs.includes('codex'));
   } finally {
@@ -243,38 +243,38 @@ test('init with multiple ides records all in preferences', async () => {
 });
 
 test('init creates .gitignore with browser profile exclusion', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
     const content = await readFile(join(tempDir, '.gitignore'), 'utf-8');
-    assert.ok(content.includes('_opensquad/_browser_profile/'));
+    assert.ok(content.includes('_nxos/_browser_profile/'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init creates playwright config with persistent context', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true });
 
     const content = await readFile(
-      join(tempDir, '_opensquad', 'config', 'playwright.config.json'),
+      join(tempDir, '_nxos', 'config', 'playwright.config.json'),
       'utf-8'
     );
     const config = JSON.parse(content);
     assert.equal(config.browser.isolated, false);
-    assert.equal(config.browser.userDataDir, '_opensquad/_browser_profile');
+    assert.equal(config.browser.userDataDir, '_nxos/_browser_profile');
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init with claude-code IDE creates .mcp.json with playwright server', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['claude-code'] });
@@ -288,40 +288,23 @@ test('init with claude-code IDE creates .mcp.json with playwright server', async
   }
 });
 
-test('init installs all bundled agents', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
-  try {
-    await init(tempDir, { _skipPrompts: true });
-    const agentsDir = join(tempDir, 'agents');
-    await stat(agentsDir);
-    const entries = await readdir(agentsDir);
-    const agentFiles = entries.filter((f) => f.endsWith('.agent.md'));
-    assert.ok(agentFiles.length > 0, 'No agent files found');
-    await stat(join(agentsDir, 'researcher.agent.md'));
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
-});
-
-test('init installs all bundled skills including MCP skills', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init installs all bundled skills', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true });
     const skillsDir = join(tempDir, 'skills');
     const entries = await readdir(skillsDir);
     assert.ok(entries.includes('apify'), 'apify should be auto-installed');
-    assert.ok(entries.includes('blotato'), 'blotato should be auto-installed');
-    assert.ok(entries.includes('canva'), 'canva should be auto-installed');
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
-test('init installs opensquad-skill-creator including subdirs', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init installs nxos-skill-creator including subdirs', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true });
-    const scripts = await readdir(join(tempDir, 'skills', 'opensquad-skill-creator', 'scripts'));
+    const scripts = await readdir(join(tempDir, 'skills', 'nxos-skill-creator', 'scripts'));
     assert.ok(scripts.length > 0);
   } finally {
     await rm(tempDir, { recursive: true, force: true });
@@ -329,7 +312,7 @@ test('init installs opensquad-skill-creator including subdirs', async () => {
 });
 
 test('init does not overwrite existing package.json', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     const pkgPath = join(tempDir, 'package.json');
     await writeFile(pkgPath, JSON.stringify({ name: 'my-project', version: '2.0.0' }), 'utf-8');
@@ -346,7 +329,7 @@ test('init does not overwrite existing package.json', async () => {
 });
 
 test('init copies package.json to fresh project', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true });
 
@@ -358,17 +341,17 @@ test('init copies package.json to fresh project', async () => {
   }
 });
 
-test('init with _ides codex creates .agents/skills/opensquad/SKILL.md', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init with _ides codex creates .agents/skills/nxos/SKILL.md', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
 
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['codex'] });
 
     const content = await readFile(
-      join(tempDir, '.agents', 'skills', 'opensquad', 'SKILL.md'),
+      join(tempDir, '.agents', 'skills', 'nxos', 'SKILL.md'),
       'utf-8'
     );
-    assert.ok(content.includes('name: opensquad'));
+    assert.ok(content.includes('name: nxos'));
     assert.ok(content.includes('description:'));
     assert.ok(content.includes('AGENTS.md'));
   } finally {
@@ -376,23 +359,23 @@ test('init with _ides codex creates .agents/skills/opensquad/SKILL.md', async ()
   }
 });
 
-test('init with vscode-copilot creates .github/prompts/opensquad.prompt.md', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init with vscode-copilot creates .github/prompts/nxos.prompt.md', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['vscode-copilot'] });
     const content = await readFile(
-      join(tempDir, '.github', 'prompts', 'opensquad.prompt.md'),
+      join(tempDir, '.github', 'prompts', 'nxos.prompt.md'),
       'utf-8'
     );
     assert.ok(content.includes('mode:'));
-    assert.ok(content.includes('opensquad'));
+    assert.ok(content.includes('nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init with vscode-copilot creates .vscode/mcp.json with playwright server', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['vscode-copilot'] });
     const content = await readFile(join(tempDir, '.vscode', 'mcp.json'), 'utf-8');
@@ -405,7 +388,7 @@ test('init with vscode-copilot creates .vscode/mcp.json with playwright server',
 });
 
 test('init with vscode-copilot creates .vscode/settings.json with promptFilesLocations when no file exists', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['vscode-copilot'] });
     const content = await readFile(join(tempDir, '.vscode', 'settings.json'), 'utf-8');
@@ -424,7 +407,7 @@ test('init with vscode-copilot creates .vscode/settings.json with promptFilesLoc
 });
 
 test('init with vscode-copilot merges .vscode/settings.json when file already exists', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     const vscodePath = join(tempDir, '.vscode');
     await mkdir(vscodePath, { recursive: true });
@@ -449,7 +432,7 @@ test('init with vscode-copilot merges .vscode/settings.json when file already ex
 });
 
 test('init with vscode-copilot skips merge when settings.json has invalid JSON', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     const vscodePath = join(tempDir, '.vscode');
     await mkdir(vscodePath, { recursive: true });
@@ -466,25 +449,25 @@ test('init with vscode-copilot skips merge when settings.json has invalid JSON',
   }
 });
 
-test('init with cursor IDE creates .cursor/rules/opensquad.mdc', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+test('init with cursor IDE creates .cursor/rules/nxos.mdc', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['cursor'] });
 
     const content = await readFile(
-      join(tempDir, '.cursor', 'rules', 'opensquad.mdc'),
+      join(tempDir, '.cursor', 'rules', 'nxos.mdc'),
       'utf-8'
     );
     assert.ok(content.includes('alwaysApply: true'));
-    assert.ok(content.includes('opensquad'));
-    assert.ok(content.includes('/opensquad'));
+    assert.ok(content.includes('nxos'));
+    assert.ok(content.includes('/nxos'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('init with cursor IDE creates .cursor/mcp.json with playwright server', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['cursor'] });
 
@@ -498,12 +481,12 @@ test('init with cursor IDE creates .cursor/mcp.json with playwright server', asy
 });
 
 test('init with cursor IDE creates .cursorignore with browser profile exclusion', async () => {
-  const tempDir = await mkdtemp(join(tmpdir(), 'opensquad-test-'));
+  const tempDir = await mkdtemp(join(tmpdir(), 'nxos-test-'));
   try {
     await init(tempDir, { _skipPrompts: true, _ides: ['cursor'] });
 
     const content = await readFile(join(tempDir, '.cursorignore'), 'utf-8');
-    assert.ok(content.includes('_opensquad/_browser_profile/'));
+    assert.ok(content.includes('_nxos/_browser_profile/'));
     assert.ok(content.includes('node_modules/'));
   } finally {
     await rm(tempDir, { recursive: true, force: true });

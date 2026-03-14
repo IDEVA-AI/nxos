@@ -19,7 +19,7 @@ const IDES = [
   { label: 'Antigravity', value: 'antigravity', checked: true },
   { label: 'Claude Code', value: 'claude-code' },
   { label: 'Codex (OpenAI)', value: 'codex' },
-  { label: 'Cursor', value: 'cursor' }, 
+  { label: 'Cursor', value: 'cursor' },
   { label: 'VS Code + Copilot', value: 'vscode-copilot' },
 ];
 
@@ -28,13 +28,13 @@ export async function init(targetDir, options = {}) {
   // Check if already initialized
   let isReInit = false;
   try {
-    await stat(join(targetDir, '_opensquad'));
+    await stat(join(targetDir, '_nxos'));
     isReInit = true;
   } catch {
     // Not initialized yet — continue
   }
 
-  console.log(isReInit ? '\n  🔄 Opensquad — Re-configure\n' : '\n  🟢 Opensquad — Setup\n');
+  console.log(isReInit ? '\n  🔄 nxos — Re-configure\n' : '\n  🟢 nxos — Setup\n');
 
   // Guided installation (skip in test mode)
   let language = options._language || 'English';
@@ -74,9 +74,9 @@ export async function init(targetDir, options = {}) {
   await writeProjectReadme(targetDir);
 
   // Write user preferences
-  const prefsPath = join(targetDir, '_opensquad', '_memory', 'preferences.md');
+  const prefsPath = join(targetDir, '_nxos', '_memory', 'preferences.md');
   await mkdir(dirname(prefsPath), { recursive: true });
-  const prefsContent = `# Opensquad Preferences
+  const prefsContent = `# nxos Preferences
 
 - **User Name:** ${userName}
 - **Output Language:** ${language}
@@ -108,7 +108,7 @@ export async function init(targetDir, options = {}) {
 
 export async function loadSavedLocale(targetDir) {
   try {
-    const prefsPath = join(targetDir, '_opensquad', '_memory', 'preferences.md');
+    const prefsPath = join(targetDir, '_nxos', '_memory', 'preferences.md');
     const content = await readFile(prefsPath, 'utf-8');
     const match = content.match(/\*\*Output Language:\*\*\s*(.+)/);
     if (match) {

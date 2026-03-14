@@ -30,7 +30,7 @@ export function App() {
           letterSpacing: 0.5,
         }}
       >
-        opensquad Dashboard
+        nxos Dashboard
       </header>
 
       {/* Main content */}

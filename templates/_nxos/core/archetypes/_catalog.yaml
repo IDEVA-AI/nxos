@@ -1,0 +1,26 @@
+# Archetypes Catalog
+# Archetypes are domain-specific packages that extend nxos with specialized
+# best-practices, agent templates, and pipeline patterns.
+#
+# Install an archetype with: npx nxos install-archetype <name>
+# The Architect agent consults installed archetypes during squad creation.
+
+catalog: []
+
+# Future archetypes:
+#
+# - id: content
+#   name: "Content Creation"
+#   description: "Social media, blogs, newsletters, copywriting — full content pipeline"
+#   includes:
+#     best_practices: [copywriting, image-design, social-networks-publishing, strategist, ...]
+#     skills: [instagram-publisher, canva, image-creator, image-fetcher, blotato]
+#     agent_templates: [writer, designer, reviewer, strategist]
+#
+# - id: dev
+#   name: "Software Development"
+#   description: "Code generation, testing, CI/CD, code review pipelines"
+#
+# - id: research
+#   name: "Academic Research"
+#   description: "Literature review, data collection, analysis, paper writing"

@@ -1,19 +1,18 @@
-# opensquad
+# nxos
 
-Crie squads de agentes de IA que trabalham juntos — direto da sua IDE.
+Framework universal de orquestração multi-agente — direto da sua IDE.
 
-opensquad é um framework de orquestração multi-agente. Descreva o que você precisa em linguagem natural, e o opensquad cria uma equipe de agentes especializados que trabalham juntos automaticamente.
+nxos é um framework domain-agnostic de orquestração multi-agente. Descreva o que você precisa em linguagem natural, e o nxos cria uma equipe de agentes especializados que trabalham juntos automaticamente.
 
 ## O que é um Squad?
 
-Um squad é uma equipe de agentes de IA que colaboram em uma tarefa. Cada agente tem um papel específico. Eles executam em pipeline — você só intervém nos checkpoints de decisão.
+Um squad é uma equipe de agentes de IA que colaboram em uma tarefa. Cada agente tem um papel específico. Eles executam em pipeline ou loop — você só intervém nos checkpoints de decisão.
 
 Exemplo:
 
-- **Pesquisador** coleta informações e tendências do setor
-- **Estrategista** gera ideias e define a abordagem
-- **Redator** produz o conteúdo final
-- **Designer** cria as imagens para redes sociais
+- **Pesquisador** coleta informações e dados relevantes
+- **Analista** processa dados e gera insights
+- **Executor** produz o resultado final
 - **Revisor** garante qualidade antes da entrega
 
 ## Instalação
@@ -21,13 +20,13 @@ Exemplo:
 **Pré-requisito:** Node.js 20+
 
 ```bash
-npx opensquad init
+npx nxos init
 ```
 
 Para atualizar uma instalação existente:
 
 ```bash
-npx opensquad update
+npx nxos update
 ```
 
 ## IDEs Suportadas
@@ -37,7 +36,6 @@ npx opensquad update
 | Antigravity | Disponível |
 | Claude Code | Disponível |
 | Codex (OpenAI) | Disponível |
-| Open Code | Disponível |
 | Cursor | Disponível |
 | VS Code + Copilot | Disponível |
 
@@ -48,7 +46,7 @@ O Escritório Virtual é uma interface visual 2D que mostra seus agentes trabalh
 **Passo 1 — Gere o dashboard** (na sua IDE):
 
 ```
-/opensquad dashboard
+/nxos dashboard
 ```
 
 **Passo 2 — Sirva localmente** (no terminal):
@@ -64,48 +62,34 @@ npx serve squads/<nome-do-squad>/dashboard
 Abra o menu:
 
 ```
-/opensquad
+/nxos
 ```
 
-O **Opensquad** vai te mostrar todas as opções disponíveis. 
+O **nxos** vai te mostrar todas as opções disponíveis.
 
-Para criar um novo squad, basta selecionar a opção, e o **Arquiteto** faz algumas perguntas, projeta o squad e configura tudo automaticamente. Você aprova o design antes de qualquer execução.
+Para criar um novo squad, basta selecionar a opção, e o **Architect** faz algumas perguntas, projeta o squad e configura tudo automaticamente. Você aprova o design antes de qualquer execução.
 
 ## Executando um Squad
 
-Você pode executar o squad novamente com /opensquad, ou pedindo diretamente:
-
 ```
-/opensquad rode o squad <nome-do-squad>
+/nxos run <nome-do-squad>
 ```
 
 O squad executa automaticamente, pausando apenas nos checkpoints onde sua decisão é necessária.
-
-## Exemplos
-
-```
-/opensquad
-/opensquad crie um Squad que gera carrosséis de Instagram a partir de notícias quentes, cria as imagens e publica automaticamente
-/opensquad quero um Squad que produz todos os materiais de lançamento de infoproduto: páginas de vendas, mensagens de WhatsApp, emails e roteiros de CPL
-/opensquad crie um Squad que escreve tutoriais completos com prints de tela para treinamento de colaboradores
-/opensquad crie um "Squad que pega vídeos do YouTube e gera cortes virais automaticamente"
-/opensquad roda o squad carrosseis-instagram
-
-```
 
 ## Comandos
 
 | Comando | O que faz |
 |---------|-----------|
-| `/opensquad` | Abre o menu principal |
-| `/opensquad help` | Mostra todos os comandos |
-| `/opensquad create` | Cria um novo squad |
-| `/opensquad run <nome>` | Executa um squad |
-| `/opensquad list` | Lista seus squads |
-| `/opensquad edit <nome>` | Modifica um squad |
-| `/opensquad skills` | Navega pelas skills instaladas |
-| `/opensquad install <nome>` | Instala uma skill do catálogo |
-| `/opensquad uninstall <nome>` | Remove uma skill instalada |
+| `/nxos` | Abre o menu principal |
+| `/nxos help` | Mostra todos os comandos |
+| `/nxos create` | Cria um novo squad |
+| `/nxos run <nome>` | Executa um squad |
+| `/nxos list` | Lista seus squads |
+| `/nxos edit <nome>` | Modifica um squad |
+| `/nxos skills` | Navega pelas skills instaladas |
+| `/nxos install <nome>` | Instala uma skill do catálogo |
+| `/nxos uninstall <nome>` | Remove uma skill instalada |
 
 ## Licença
 
@@ -113,21 +97,21 @@ MIT — use como quiser.
 
 ---
 
-# opensquad (English)
+# nxos (English)
 
-Create AI squads that work together — right from your IDE.
+Universal multi-agent orchestration framework — right from your IDE.
 
-opensquad is a multi-agent orchestration framework. Describe what you need in plain language, and opensquad creates a team of specialized agents that work together automatically.
+nxos is a domain-agnostic multi-agent orchestration framework. Describe what you need in plain language, and nxos creates a team of specialized agents that work together automatically.
 
 ## What is a Squad?
 
-A squad is a team of AI agents that collaborate on a task. Each agent has a specific role. They run in a pipeline — you only step in at decision checkpoints.
+A squad is a team of AI agents that collaborate on a task. Each agent has a specific role. They run in pipeline or loop mode — you only step in at decision checkpoints.
 
 Example:
 
-- **Researcher** gathers information and industry trends
-- **Strategist** generates ideas and defines the approach
-- **Writer** produces the final content
+- **Researcher** gathers information and relevant data
+- **Analyst** processes data and generates insights
+- **Executor** produces the final output
 - **Reviewer** ensures quality before delivery
 
 ## Installation
@@ -135,13 +119,13 @@ Example:
 **Prerequisite:** Node.js 20+
 
 ```bash
-npx opensquad init
+npx nxos init
 ```
 
 To update an existing installation:
 
 ```bash
-npx opensquad update
+npx nxos update
 ```
 
 ## Supported IDEs
@@ -151,7 +135,6 @@ npx opensquad update
 | Antigravity | Available |
 | Claude Code | Available |
 | Codex (OpenAI) | Available |
-| Open Code | Available |
 | Cursor | Available |
 | VS Code + Copilot | Available |
 
@@ -162,7 +145,7 @@ The Virtual Office is a 2D visual interface that shows your agents working in re
 **Step 1 — Generate the dashboard** (in your IDE):
 
 ```
-/opensquad dashboard
+/nxos dashboard
 ```
 
 **Step 2 — Serve it locally** (in terminal):
@@ -175,10 +158,10 @@ npx serve squads/<squad-name>/dashboard
 
 ## Creating your Squad
 
-Describe what you need:
+Open the menu:
 
 ```
-/opensquad create "A squad that writes LinkedIn posts about AI trends"
+/nxos
 ```
 
 The **Architect** asks a few questions, designs the squad, and sets everything up automatically. You approve the design before any execution begins.
@@ -186,33 +169,24 @@ The **Architect** asks a few questions, designs the squad, and sets everything u
 ## Running a Squad
 
 ```
-/opensquad run <squad-name>
+/nxos run <squad-name>
 ```
 
 The squad runs automatically, pausing only at checkpoints where your decision is needed.
-
-## Examples
-
-```
-/opensquad create "Squad that generates Instagram carousels from trending news, creates the images, and publishes automatically"
-/opensquad create "Squad that produces all infoproduct launch materials: sales pages, WhatsApp messages, emails, and CPL scripts"
-/opensquad create "Squad that writes complete tutorials with screenshots for employee training"
-/opensquad create "Squad that takes YouTube videos and automatically generates viral clips"
-```
 
 ## Commands
 
 | Command | What it does |
 |---------|-------------|
-| `/opensquad` | Open the main menu |
-| `/opensquad help` | Show all commands |
-| `/opensquad create` | Create a new squad |
-| `/opensquad run <name>` | Run a squad |
-| `/opensquad list` | See all your squads |
-| `/opensquad edit <name>` | Modify a squad |
-| `/opensquad skills` | Browse installed skills |
-| `/opensquad install <name>` | Install a skill from catalog |
-| `/opensquad uninstall <name>` | Remove an installed skill |
+| `/nxos` | Open the main menu |
+| `/nxos help` | Show all commands |
+| `/nxos create` | Create a new squad |
+| `/nxos run <name>` | Run a squad |
+| `/nxos list` | See all your squads |
+| `/nxos edit <name>` | Modify a squad |
+| `/nxos skills` | Browse installed skills |
+| `/nxos install <name>` | Install a skill from catalog |
+| `/nxos uninstall <name>` | Remove an installed skill |
 
 ## License
 

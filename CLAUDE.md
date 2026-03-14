@@ -1,44 +1,121 @@
-# nxos — Project Instructions
+# nxos — Development Guide
 
-This project uses **nxos**, a multi-agent orchestration framework.
+This is the **nxos framework repository**. nxos is a universal, domain-agnostic multi-agent orchestration framework distributed via npm.
 
-## Quick Start
+## Quick Reference
 
-Type `/nxos` to open the main menu, or use any of these commands:
-- `/nxos create` — Create a new squad
-- `/nxos run <name>` — Run a squad
-- `/nxos help` — See all commands
+```bash
+node --test tests/*.test.js    # Run all tests (76/78 pass, 2 pre-existing)
+npx nxos init                  # Test init locally
+/nxos-dev                      # Run distribution consistency checker
+```
+
+## Architecture
+
+### Distribution Model
+
+nxos is distributed via npm. Users run `npx nxos init` which copies files to their project:
+
+| Source (this repo) | Destination (user project) | Mechanism |
+|---|---|---|
+| `templates/` (excl. `ide-templates/`) | Project root | `copyCommonTemplates()` in `src/init.js` |
+| `templates/ide-templates/{ide}/` | Project root | Copied per selected IDE |
+| `agents/` | `agents/` | `installAgent()` — copied as `.agent.md` files |
+| `skills/` | `skills/` | `installSkill()` — copied as directories |
+
+### Critical Sync Rule
+
+`_nxos/core/*` MUST mirror `templates/_nxos/core/*` at all times.
+
+- `_nxos/core/` — Live working copy (used when running nxos locally in this repo)
+- `templates/_nxos/core/` — Distribution copy (shipped to users via `npx nxos init`)
+
+If you edit one, copy to the other. Run `/nxos-dev` to verify sync.
+
+### Multi-IDE Support
+
+nxos supports 5 IDEs. Each has a template folder in `templates/ide-templates/`:
+
+| IDE | Folder |
+|---|---|
+| Claude Code | `templates/ide-templates/claude-code/` |
+| Cursor | `templates/ide-templates/cursor/` |
+| VS Code + Copilot | `templates/ide-templates/vscode-copilot/` |
+| Codex | `templates/ide-templates/codex/` |
+| Antigravity | `templates/ide-templates/antigravity/` |
+
+**Golden Rule:** IDE-specific changes go ONLY in `templates/ide-templates/{ide}/`. Never add conditional IDE logic to shared files in `_nxos/core/` or `templates/`.
+
+### Multi-file Skills
+
+Skills with subdirectories (scripts/, agents/, assets/) need BOTH:
+- `skills/{name}/` — Bundled catalog (npm distribution)
+- `templates/skills/{name}/` — Template mirror (copied during init)
+
+Single-file skills (only SKILL.md) do NOT need a template mirror.
 
 ## Directory Structure
 
-- `_nxos/` — nxos core files (do not modify manually)
-- `_nxos/_memory/` — Persistent memory (company context, preferences)
-- `skills/` — Installed skills (integrations, scripts, prompts)
-- `squads/` — User-created squads
-- `squads/{name}/_investigations/` — Investigator research outputs (reference analyses)
-- `squads/{name}/output/` — Generated output and files
-- `_nxos/_browser_profile/` — Persistent browser sessions (login cookies, localStorage)
+```
+nxos/
+├── bin/nxos.js              # CLI entry point
+├── src/
+│   ├── init.js              # npx nxos init
+│   ├── update.js            # npx nxos update
+│   ├── skills.js            # Skills engine
+│   ├── skills-cli.js        # Skills CLI
+│   ├── agents.js            # Agents engine
+│   ├── agents-cli.js        # Agents CLI
+│   ├── i18n.js              # Localization (en, pt-BR, es)
+│   ├── prompt.js            # User prompts
+│   └── locales/             # Translation strings
+├── templates/               # Copied to user projects during init
+│   ├── _nxos/core/          # Framework core (MUST sync with _nxos/core/)
+│   ├── ide-templates/       # IDE-specific files
+│   ├── dashboard/           # Dashboard UI template
+│   └── skills/              # Multi-file skill templates
+├── _nxos/core/              # Live working copy of framework core
+│   ├── architect.agent.yaml # Squad creation agent
+│   ├── runner.pipeline.md   # Pipeline execution
+│   ├── runner.cycle.md      # Loop mode execution
+│   ├── skills.engine.md     # Skills management
+│   ├── best-practices/      # researching, review, data-analysis
+│   ├── archetypes/          # Domain packages (future)
+│   └── prompts/
+│       └── investigator.prompt.md
+├── agents/                  # Bundled agent catalog
+├── skills/                  # Bundled skills catalog
+├── dashboard/               # Dashboard source (React + Pixi.js)
+├── tests/                   # Test suite
+└── package.json             # npm package config
+```
 
-## How It Works
+## Protected Paths
 
-1. The `/nxos` skill is the entry point for all interactions
-2. The **Architect** agent creates and modifies squads
-3. During squad creation, the **Investigator** can analyze reference sources to extract patterns and insights
-4. The **Pipeline Runner** executes squads automatically
-5. Agents communicate via persona switching (inline) or subagents (background)
-6. Checkpoints pause execution for user input/approval
+These directories are NEVER overwritten during `npx nxos update`:
 
-## Rules
+- `_nxos/_memory` — User preferences and project context
+- `_nxos/_investigations` — Investigator research data
+- `agents` — User-installed/customized agents
+- `squads` — User-created squads
 
-- Always use `/nxos` commands to interact with the system
-- Do not manually edit files in `_nxos/core/` unless you know what you're doing
-- Squad YAML files can be edited manually if needed, but prefer using `/nxos edit`
-- Company context in `_nxos/_memory/company.md` is loaded for every squad run
+## package.json files[]
 
-## Browser Sessions
+Controls what enters the npm package: `bin/`, `src/`, `agents/`, `skills/`, `templates/`.
 
-nxos uses a persistent Playwright browser profile to keep you logged into external platforms.
-- Sessions are stored in `_nxos/_browser_profile/` (gitignored, private to you)
-- First time accessing a platform, you'll log in manually once
-- Subsequent runs will reuse your saved session
-- **Important:** The native Claude Code Playwright plugin must be disabled. nxos uses its own `@playwright/mcp` server configured in `.mcp.json`.
+If you add a new distributable directory, add it to `files[]`.
+
+## Verification
+
+Run `/nxos-dev` after any changes. It checks:
+
+- **A:** `_nxos/core/` ↔ `templates/_nxos/core/` sync
+- **B:** Multi-file skills ↔ `templates/skills/` sync
+- **C:** `agents/` in `package.json files[]`
+- **D:** Init logic integrity
+- **E:** `PROTECTED_PATHS` completeness
+- **F:** Package manifest completeness
+- **G:** New top-level directories configured
+- **H:** Init auto-installs agents/skills
+- **I:** Update installs new agents/skills
+- **J:** No IDE-specific logic in shared files
